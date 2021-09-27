@@ -8,21 +8,37 @@ import json
 
 # research SQLite vs MySQL
 
+
 barcodes = json.load(open('Barcode Database.json'))
 choice = ""
 
 
+########################################################################
+# This is a function to write to the barcodes dictionary & save space  #
+########################################################################
+
+
+def write_database():
+    database = json.dumps(barcodes, indent=2)
+    with open('Barcode Database.json', 'w') as barcode_database:
+        barcode_database.write(database)
+        barcode_database.close()
+
+################################################################
+# General confirmation to use through the program when needed. #
+################################################################
+
+
 def confirmation():
-    a = input("\nAre you sure you want to continue? ")
-    if a == "y":
+    response = input("\nAre you sure you want to continue? ")
+    if response == "y":
         confirm = True
         return confirm
-    elif a == "n":
+    elif response == "n":
         confirm = False
         return confirm
     else:
         print("You have made an invalid response, Please use \"y\" or \"n\" only.")
-
 
 ####################################################################################
 #    This function is used to search for a barcode within the barcode database,    #
@@ -41,7 +57,7 @@ def search_product():
         print("\n#####################")
         print("# Nutritional Facts #")
         print("#####################")
-        print("Servings per Container: " + barcodes[search]["nf_servings"])
+        print("Servings per Container: " + barcodes[search]["nf_servings"] or "nil")
         print("Serving Size: " + barcodes[search]["nf_serving_size"])
         print("Calories / serving: " + barcodes[search]["nf_calories"])
         print("Total Fat / serving: " + barcodes[search]["nf_total_fat"])
@@ -75,9 +91,9 @@ def add_product(search):
     barcodes[search]['name'] = product_name
     barcodes[search]['size'] = product_size
 
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-    # Nutritional Facts portion of the function #
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+#    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+#    # Nutritional Facts portion of the function #
+#    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
     # asks the user if they would like to input Nutritional facts of the product Allows them to skip this step
     nutrition_facts = input("would you like to add Nutrition Facts?(Y or N) ")
@@ -97,10 +113,7 @@ def add_product(search):
         barcodes[search]['nf_sodium'] = product_nf_sodium
 
     # takes the new barcode &
-    database = json.dumps(barcodes, indent=2)
-    with open('Barcode Database.json', 'w') as barcode_database:
-        barcode_database.write(database)
-        barcode_database.close()
+    write_database()
 
     print("\nProduct Name: " + product_name)
     print("Product Size: " + product_size)
@@ -133,7 +146,6 @@ def edit_product():
     return
 
 
-
 ####################################################################################
 # This function allows the user to delete a products information from the database #
 ####################################################################################
@@ -141,13 +153,17 @@ def edit_product():
 
 def del_product():
     selection = input("Please input the product barcode you would like to remove: ")
-    print("Product Name: " + barcodes[selection]["name"])
-    confirmation()
-
-    if confirm is True:
-        del barcodes[selection]
+    if selection in barcodes:
+        print("Product Name: " + barcodes[selection]["name"])
+        confirm = confirmation()
+        if confirm is True:
+            del barcodes[selection]
+            write_database()
+            print("The product's barcode has been removed from the database.")
+        else:
+            print("Action canceled, Barcode was not removed.")
     else:
-        print("Action canceled, Barcode was not removed.")
+        print("This product barcode is not found in our database")
 
 #####################################
 #    Main code for the program.     #
