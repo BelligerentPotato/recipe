@@ -3,7 +3,7 @@ import json
 ##
 # Author: BelligerentPotato
 # Created: 9/26/2021
-# Last Edit: 9/27/2021 9:27 AM EST
+# Last Edit: 9/27/2021 12:19 PM EST
 ##
 barcodes = json.load(open('Barcode Database.json'))
 choice = ""
@@ -75,14 +75,15 @@ def add_product(search):
         product_nf_total_fat = input("Total fat? ")
         product_nf_sodium = input("Sodium content? ")
 
+        # Sets the values for Servings per container, Serving size, calories, total fat, sodium
         barcodes[search]['nf_servings'] = product_nf_servings
         barcodes[search]['nf_serving_size'] = product_nf_serving_size
         barcodes[search]['nf_calories'] = product_nf_calories
         barcodes[search]['nf_total_fat'] = product_nf_total_fat
         barcodes[search]['nf_sodium'] = product_nf_sodium
 
-
-    database = json.dumps(barcodes)
+    # takes the new barcode &
+    database = json.dumps(barcodes, indent=2)
     with open('Barcode Database.json', 'w') as barcode_database:
         barcode_database.write(database)
         barcode_database.close()
