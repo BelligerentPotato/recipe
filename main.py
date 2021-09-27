@@ -5,9 +5,23 @@ import json
 # Created: 9/26/2021
 # Last Edit: 9/27/2021 12:19 PM EST
 ##
+
+# research SQLite vs MySQL
+
 barcodes = json.load(open('Barcode Database.json'))
 choice = ""
 
+
+def confirmation():
+    a = input("\nAre you sure you want to continue? ")
+    if a == "y":
+        confirm = True
+        return confirm
+    elif a == "n":
+        confirm = False
+        return confirm
+    else:
+        print("You have made an invalid response, Please use \"y\" or \"n\" only.")
 
 
 ####################################################################################
@@ -119,6 +133,22 @@ def edit_product():
     return
 
 
+
+####################################################################################
+# This function allows the user to delete a products information from the database #
+####################################################################################
+
+
+def del_product():
+    selection = input("Please input the product barcode you would like to remove: ")
+    print("Product Name: " + barcodes[selection]["name"])
+    confirmation()
+
+    if confirm is True:
+        del barcodes[selection]
+    else:
+        print("Action canceled, Barcode was not removed.")
+
 #####################################
 #    Main code for the program.     #
 #####################################
@@ -129,7 +159,7 @@ while choice != "exit":
     print("Welcome to Kitchen pal, Thanks for using our program. What would you like to do? \n"
           "1. Search for a product. \n"
           "2. Add a product. \n"
-          "3. Edit a product. \n"
+          "3. Delete a product. \n"
           "4. Report a product \n")
 
     choice = input("Make your selection by typing the corresponding number: ")
@@ -138,7 +168,7 @@ while choice != "exit":
     elif choice == "2":
         add_product()
     elif choice == "3":
-        edit_product()
+        del_product()
     elif choice == "4":
         print("currently being worked on!")
     else:
