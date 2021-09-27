@@ -5,7 +5,7 @@ import json
 # Created: 9/26/2021
 # Last Edit: 9/27/2021 12:19 PM EST
 ##
-
+# resources https://www.w3schools.com/python/python_ref_string.asp
 # research SQLite vs MySQL
 
 
@@ -52,16 +52,23 @@ def search_product():
 
     search = input("Please enter product barcode numbers. ")
     if search in barcodes:
-        print("Product Name: " + barcodes[search]["name"])
-        print("Container Size: " + barcodes[search]["size"])
-        print("\n#####################")
-        print("# Nutritional Facts #")
-        print("#####################")
-        print("Servings per Container: " + barcodes[search]["nf_servings"] or "nil")
-        print("Serving Size: " + barcodes[search]["nf_serving_size"])
-        print("Calories / serving: " + barcodes[search]["nf_calories"])
-        print("Total Fat / serving: " + barcodes[search]["nf_total_fat"])
-        print("Sodium / serving: " + barcodes[search]["nf_sodium"])
+        # print("Product Name: " + barcodes[search]["name"])
+        # print("Container Size: " + barcodes[search]["size"])
+        # print("\n#####################")
+        # print("# Nutritional Facts #")
+        # print("#####################")
+        # print("Servings per Container: " + barcodes[search]["nf_servings"])
+        # print("Serving Size: " + barcodes[search]["nf_serving_size"])
+        # print("Calories / serving: " + barcodes[search]["nf_calories"])
+        # print("Total Fat / serving: " + barcodes[search]["nf_total_fat"])
+        # print("Sodium / serving: " + barcodes[search]["nf_sodium"])
+
+        for value in barcodes[search].get("name", "size"):
+            if value == "name":
+                print("Product Name: " + value)
+            if value == "size":
+                print("Container Size: " + value)
+
     else:
         confirm = input("This product barcode is not found in our database, Would you like to add it? ")
         if confirm.lower() == "y":
