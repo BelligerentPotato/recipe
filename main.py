@@ -63,11 +63,24 @@ def search_product():
         # print("Total Fat / serving: " + barcodes[search]["nf_total_fat"])
         # print("Sodium / serving: " + barcodes[search]["nf_sodium"])
 
-        for value in barcodes[search].get("name", "size"):
-            if value == "name":
+        for child_key, value in barcodes[search].items():
+            temp = child_key, value
+            if child_key == "name":
                 print("Product Name: " + value)
-            if value == "size":
+            if child_key == "size":
                 print("Container Size: " + value)
+            if child_key == "nf_servings":
+                print("Servings Per Container: " + value)
+            if child_key == "nf_serving_size":
+                print("Servings Size: " + value)
+            if child_key == "nf_calories":
+                print("Calories: " + value)
+            if child_key == "nf_total_fat":
+                print("Total Fat: " + value)
+            if child_key == "nf_sodium":
+                print("Sodium: " + value)
+
+
 
     else:
         confirm = input("This product barcode is not found in our database, Would you like to add it? ")
